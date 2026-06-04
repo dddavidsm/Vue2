@@ -58,21 +58,31 @@
     </div>
 
     <!-- Team -->
-    <h2 class="text-center fw-bold mb-5">El nostre equip</h2>
-    <div class="row g-4 mb-5">
-      <div class="col-sm-6 col-lg-3" v-for="member in team" :key="member.name">
-        <div class="card border-0 shadow-sm text-center h-100">
-          <div class="card-body p-4">
-            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;">
-              <i class="bi bi-person text-primary" style="font-size:2.5rem;"></i>
-            </div>
-            <h6 class="fw-bold mb-1">{{ member.name }}</h6>
-            <small class="text-primary">{{ member.role }}</small>
-            <p class="text-muted mt-2 small">{{ member.bio }}</p>
+<!-- Título centrado, en negrita y con margen inferior grande -->
+<h2 class="text-center fw-bold mb-5">El nostre equip</h2>
+<!-- Fila de Bootstrap con separación entre columnas y margen inferior -->
+<div class="row g-4 mb-5">
+  <!-- Por cada member del array team crea una columna: en sm ocupa 6/12 y en lg ocupa 3/12 -->
+  <div class="col-sm-6 col-lg-3" v-for="member in team" :key="member.name">
+    <!-- Card sin borde, con sombra, texto centrado y altura completa -->
+    <div class="card border-0 shadow-sm text-center h-100">
+      <!-- Cuerpo de la card con padding interno de 4 -->
+      <div class="card-body p-4">
+        <!-- Círculo azul claro de 80x80 centrado con flex para meter el icono dentro -->
+        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;">
+          <!-- Icono de persona azul con tamaño grande -->
+          <i class="bi bi-person text-primary" style="font-size:2.5rem;"></i>
           </div>
-        </div>
+          <!-- Pinta el nombre del miembro que se está recorriendo en el v-for -->
+          <h6 class="fw-bold mb-1">{{ member.name }}</h6>
+          <!-- Pinta el rol del miembro que se está recorriendo en el v-for -->
+          <small class="text-primary">{{ member.role }}</small>
+          <!-- Pinta la bio del miembro que se está recorriendo en el v-for -->
+          <p class="text-muted mt-2 small">{{ member.bio }}</p>
       </div>
     </div>
+  </div>
+</div>
 
     <!-- Stats -->
     <div class="row g-4 bg-primary text-white rounded-4 p-4 mx-0">

@@ -1,3 +1,32 @@
 {
-  "users": []
+  "users": [
+    {
+      "nom": "david",
+      "cognoms": "sanchez",
+      "email": "david@gmail.com",
+      "telefon": "666666666",
+      "dataNaixement": "17/05/2005",
+      "adreca": "costa brava 12",
+      "provincia": "08",
+      "poblacio": "Sabadell",
+      "codiPostal": "08210",
+      "passwordHash": "[protected]",
+      "createdAt": "2026-06-04T09:10:50.713Z",
+      "id": 1
+    },
+    {
+      "nom": "david",
+      "cognoms": "david",
+      "email": "asadsa@gmail",
+      "telefon": "666666666",
+      "dataNaixement": "06/12/2005",
+      "adreça": "avinguda",
+      "provincia": "08",
+      "poblacio": "Sabadell",
+      "codiPostal": "08214",
+      "passwordHash": "[protected]",
+      "createdAt": "2026-06-04T09:19:29.545Z",
+      "id": 2
+    }
+  ]
 }

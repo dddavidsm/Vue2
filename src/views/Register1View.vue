@@ -30,12 +30,14 @@
           <div class="row g-3 mb-3">
             <div class="col-md-6">
               <label class="form-label">Nom *</label>
+              <!-- v-model = "form.nom" el input se conecta directamente con el objeto -->
               <input v-model.trim="form.nom" type="text" class="form-control"
                 :class="fieldClass('nom')" placeholder="Joan" @blur="touch('nom')" />
               <div class="invalid-feedback">{{ errors.nom }}</div>
             </div>
             <div class="col-md-6">
               <label class="form-label">Cognoms *</label>
+              <!-- v-model = "form.cognoms" el input se conecta directamente con el objeto -->
               <input v-model.trim="form.cognoms" type="text" class="form-control"
                 :class="fieldClass('cognoms')" placeholder="García López" @blur="touch('cognoms')" />
               <div class="invalid-feedback">{{ errors.cognoms }}</div>
@@ -190,10 +192,19 @@ import { useRegister } from '../composables/useRegister.js'
 
 const { loading, error, success, savedUser, submitRegistration, reset } = useRegister()
 
+// objeto form con todos los campos del formulario
 const form = reactive({
-  nom: '', cognoms: '', email: '', telefon: '', dataNaixement: '',
-  contrasenya: '', verificacioContrasenya: '',
-  adreca: '', provincia: '', poblacio: '', codiPostal: '',
+  nom: '',
+  cognoms: '',
+  email: '',
+  telefon: '',
+  dataNaixement: '',
+  contrasenya: '',
+  verificacioContrasenya: '',
+  adreca: '',
+  provincia: '',
+  poblacio: '',
+  codiPostal: '',
 })
 
 const touched  = reactive({})
@@ -228,41 +239,55 @@ const getAge = (v) => {
 }
 
 const errors = computed(() => {
+  
+// Usuario escribe en input
+//         ↓
+// v-model cambia form.nom / form.email / etc.
+//         ↓
+// Vue detecta el cambio
+//         ↓
+// computed errors se recalcula
+//         ↓
+// La plantilla muestra o quita el mensaje de error
+
   const e = {}
 
-  if (!form.nom)                e.nom     = 'El nom és obligatori'
-  else if (form.nom.length < 2) e.nom     = 'Mínim 2 caràcters'
+  //Creo un objeto errors calculado automáticamente. Cada vez que cambia algún campo del formulario, 
+  // Vue vuelve a ejecutar esta función y genera un objeto e con los errores actuales.
 
-  if (!form.cognoms)                  e.cognoms = 'Els cognoms són obligatoris'
-  else if (form.cognoms.length < 2)   e.cognoms = 'Mínim 2 caràcters'
+  if (!form.nom) e.nom = 'El nom és obligatori'
+  else if (form.nom.length < 2) e.nom = 'Mínim 2 caràcters'
 
-  if (!form.email)                                          e.email = "L'email és obligatori"
+  if (!form.cognoms) e.cognoms = 'Els cognoms són obligatoris'
+  else if (form.cognoms.length < 2) e.cognoms = 'Mínim 2 caràcters'
+
+  if (!form.email) e.email = "L'email és obligatori"
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Format d'email invàlid"
 
-  if (!form.telefon)                              e.telefon = 'El telèfon és obligatori'
-  else if (!/^[6789]\d{8}$/.test(form.telefon))  e.telefon = '9 dígits, comença per 6-9'
+  if (!form.telefon) e.telefon = 'El telèfon és obligatori'
+  else if (!/^[6789]\d{8}$/.test(form.telefon)) e.telefon = '9 dígits, comença per 6-9'
 
-  if (!form.dataNaixement)                   e.dataNaixement = 'La data és obligatòria'
+  if (!form.dataNaixement) e.dataNaixement = 'La data és obligatòria'
   else if (!isValidDate(form.dataNaixement)) e.dataNaixement = 'Format incorrecte (DD/MM/YYYY)'
-  else if (getAge(form.dataNaixement) < 16)  e.dataNaixement = 'Has de tenir almenys 16 anys'
+  else if (getAge(form.dataNaixement) < 16) e.dataNaixement = 'Has de tenir almenys 16 anys'
 
   const p = form.contrasenya
-  if (!p)                            e.contrasenya = 'La contrasenya és obligatòria'
-  else if (p.length < 12)            e.contrasenya = 'Mínim 12 caràcters'
-  else if (!/[A-Z]/.test(p))         e.contrasenya = 'Necessita almenys una majúscula'
-  else if (!/[a-z]/.test(p))         e.contrasenya = 'Necessita almenys una minúscula'
-  else if (!/[0-9]/.test(p))         e.contrasenya = 'Necessita almenys un número'
-  else if (!/[^A-Za-z0-9]/.test(p))  e.contrasenya = 'Necessita almenys un caràcter especial'
+  if (!p) e.contrasenya = 'La contrasenya és obligatòria'
+  else if (p.length < 12) e.contrasenya = 'Mínim 12 caràcters'
+  else if (!/[A-Z]/.test(p)) e.contrasenya = 'Necessita almenys una majúscula'
+  else if (!/[a-z]/.test(p)) e.contrasenya = 'Necessita almenys una minúscula'
+  else if (!/[0-9]/.test(p)) e.contrasenya = 'Necessita almenys un número'
+  else if (!/[^A-Za-z0-9]/.test(p)) e.contrasenya = 'Necessita almenys un caràcter especial'
 
-  if (!form.verificacioContrasenya)                          e.verificacioContrasenya = 'La verificació és obligatòria'
+  if (!form.verificacioContrasenya) e.verificacioContrasenya = 'La verificació és obligatòria'
   else if (form.verificacioContrasenya !== form.contrasenya) e.verificacioContrasenya = 'Les contrasenyes no coincideixen'
 
   if (!form.adreca || form.adreca.length < 5) e.adreca   = !form.adreca ? "L'adreça és obligatòria" : 'Mínim 5 caràcters'
-  if (!form.provincia)                         e.provincia = 'La província és obligatòria'
-  if (!form.poblacio)                          e.poblacio  = 'La població és obligatòria'
+  if (!form.provincia) e.provincia = 'La província és obligatòria'
+  if (!form.poblacio) e.poblacio  = 'La població és obligatòria'
 
-  if (!form.codiPostal)                       e.codiPostal = 'El codi postal és obligatori'
-  else if (!/^\d{5}$/.test(form.codiPostal))  e.codiPostal = 'Han de ser exactament 5 dígits'
+  if (!form.codiPostal) e.codiPostal = 'El codi postal és obligatori'
+  else if (!/^\d{5}$/.test(form.codiPostal)) e.codiPostal = 'Han de ser exactament 5 dígits'
   else if (selectedProv.value && !form.codiPostal.startsWith(selectedProv.value.prefix))
     e.codiPostal = `Ha de començar per ${selectedProv.value.prefix} (${selectedProv.value.name})`
 

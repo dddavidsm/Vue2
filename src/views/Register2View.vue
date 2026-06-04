@@ -36,7 +36,7 @@
             <div class="col-md-6">
               <label class="form-label">Nom *</label>
               <input
-                v-bind="nomField"
+                v-model="nomValue"
                 type="text"
                 class="form-control"
                 :class="{ 'is-invalid': nomError, 'is-valid': nomMeta.dirty && !nomError }"
@@ -49,7 +49,7 @@
             <div class="col-md-6">
               <label class="form-label">Cognoms *</label>
               <input
-                v-bind="cognomsField"
+                v-model="cognomsValue"
                 type="text"
                 class="form-control"
                 :class="{ 'is-invalid': cognomsError, 'is-valid': cognomsMeta.dirty && !cognomsError }"
@@ -64,7 +64,7 @@
             <div class="col-md-6">
               <label class="form-label">Email *</label>
               <input
-                v-bind="emailField"
+                v-model="emailValue"
                 type="email"
                 class="form-control"
                 :class="{ 'is-invalid': emailError, 'is-valid': emailMeta.dirty && !emailError }"
@@ -77,7 +77,7 @@
             <div class="col-md-6">
               <label class="form-label">Telèfon *</label>
               <input
-                v-bind="telefonField"
+                v-model="telefonValue"
                 type="tel"
                 class="form-control"
                 :class="{ 'is-invalid': telefonError, 'is-valid': telefonMeta.dirty && !telefonError }"
@@ -94,7 +94,7 @@
             <div class="col-md-6">
               <label class="form-label">Data de Naixement *</label>
               <input
-                v-bind="dataNaixementField"
+                v-model="dataNaixementValue"
                 type="text"
                 class="form-control"
                 :class="{ 'is-invalid': dataNaixementError, 'is-valid': dataNaixementMeta.dirty && !dataNaixementError }"
@@ -114,7 +114,7 @@
               <label class="form-label">Contrasenya *</label>
               <div class="input-group">
                 <input
-                  v-bind="contrasenyaField"
+                  v-model="contrasenyaValue"
                   :type="showPass ? 'text' : 'password'"
                   class="form-control"
                   :class="{ 'is-invalid': contrasenyaError, 'is-valid': contrasenyaMeta.dirty && !contrasenyaError }"
@@ -148,7 +148,7 @@
               <label class="form-label">Verificació contrasenya *</label>
               <div class="input-group">
                 <input
-                  v-bind="verificacioField"
+                  v-model="verificacioValue"
                   :type="showPass2 ? 'text' : 'password'"
                   class="form-control"
                   :class="{ 'is-invalid': verificacioError, 'is-valid': verificacioMeta.dirty && !verificacioError }"
@@ -169,13 +169,13 @@
           <div class="mb-3">
             <label class="form-label">Adreça *</label>
             <input
-              v-bind="adrecaField"
+              v-model="adreçaValue"
               type="text"
               class="form-control"
-              :class="{ 'is-invalid': adrecaError, 'is-valid': adrecaMeta.dirty && !adrecaError }"
+              :class="{ 'is-invalid': adreçaError, 'is-valid': adreçaMeta.dirty && !adreçaError }"
               placeholder="Carrer de la Pau, 42, 3r 1a"
             />
-            <div class="invalid-feedback">{{ adrecaError }}</div>
+            <div class="invalid-feedback">{{ adreçaError }}</div>
           </div>
 
           <div class="row g-3 mb-4">
@@ -183,7 +183,7 @@
             <div class="col-md-4">
               <label class="form-label">Província *</label>
               <select
-                v-bind="provinciaField"
+                v-model="provinciaValue"
                 class="form-select"
                 :class="{ 'is-invalid': provinciaError, 'is-valid': provinciaMeta.dirty && !provinciaError }"
                 @change="onProvinciaChange"
@@ -198,7 +198,7 @@
             <div class="col-md-4">
               <label class="form-label">Població *</label>
               <select
-                v-bind="poblacioField"
+                v-model="poblacioValue"
                 class="form-select"
                 :class="{ 'is-invalid': poblacioError, 'is-valid': poblacioMeta.dirty && !poblacioError }"
                 :disabled="!provinciaValue"
@@ -213,7 +213,7 @@
             <div class="col-md-4">
               <label class="form-label">Codi Postal *</label>
               <input
-                v-bind="codiPostalField"
+                v-model="codiPostalValue"
                 type="text"
                 class="form-control"
                 :class="{ 'is-invalid': codiPostalError, 'is-valid': codiPostalMeta.dirty && !codiPostalError }"
@@ -307,7 +307,7 @@ const schema = yup.object({
     .string()
     .required('La verificació és obligatòria')
     .oneOf([yup.ref('contrasenya')], 'Les contrasenyes no coincideixen'),
-  adreca: yup.string().required("L'adreça és obligatòria").min(5, 'Mínim 5 caràcters'),
+  adreça: yup.string().required("L'adreça és obligatòria").min(5, 'Mínim 5 caràcters'),
   provincia: yup.string().required('La província és obligatòria'),
   poblacio: yup.string().required('La població és obligatòria'),
   codiPostal: yup
@@ -330,7 +330,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
   initialValues: {
     nom: '', cognoms: '', email: '', telefon: '', dataNaixement: '',
     contrasenya: '', verificacioContrasenya: '',
-    adreca: '', provincia: '', poblacio: '', codiPostal: '',
+    adreça: '', provincia: '', poblacio: '', codiPostal: '',
   },
 })
 
@@ -349,12 +349,12 @@ const { value: telefonValue,  errorMessage: telefonError,  meta: telefonMeta,  f
 const { value: dataNaixementValue, errorMessage: dataNaixementError, meta: dataNaixementMeta, field: dataNaixementField } = useField('dataNaixement')
 const { value: contrasenyaValue,   errorMessage: contrasenyaError,   meta: contrasenyaMeta,   field: contrasenyaField }  = useField('contrasenya')
 const { value: verificacioValue,   errorMessage: verificacioError,   meta: verificacioMeta,   field: verificacioField }  = useField('verificacioContrasenya')
-const { value: adrecaValue,   errorMessage: adrecaError,   meta: adrecaMeta,   field: adrecaField }         = useField('adreca')
+const { value: adreçaValue,   errorMessage: adreçaError,   meta: adreçaMeta,   field: adreçaField }         = useField('adreça')
 const { value: provinciaValue, errorMessage: provinciaError, meta: provinciaMeta, field: provinciaField }   = useField('provincia')
 const { value: poblacioValue,  errorMessage: poblacioError,  meta: poblacioMeta,  field: poblacioField }    = useField('poblacio')
 const { value: codiPostalValue, errorMessage: codiPostalError, meta: codiPostalMeta, field: codiPostalField } = useField('codiPostal')
 
-// ── Poblacions dinàmiques ──────────────────────────────────────────────────────
+// ── Poblacions dinàmiques 
 const selectedProv         = computed(() => provinces.find(p => p.id === provinciaValue.value))
 const availablePopulations = computed(() => selectedProv.value?.populations ?? [])
 
@@ -364,7 +364,7 @@ const onProvinciaChange = () => {
   codiPostalValue.value = ''
 }
 
-// ── Barra de fortalesa ────────────────────────────────────────────────────────
+// ── Barra de fortaleza 
 const passChecks = computed(() => {
   const p = contrasenyaValue.value || ''
   return {
